@@ -63,7 +63,7 @@ public class GameFrame {
 
 
     // REQUIRES: questionBank contains at least one Question element
-    // EFFECTS: Starts game for players to play, calculates their score at the end with different feedbacks
+    // EFFECTS: Starts game for players to play, calculates their score at the end
     public void startGame() {
 
         int score = 0;
@@ -76,7 +76,9 @@ public class GameFrame {
         } else {
             for (int i = 0; i < numberOfQuestions; i++) {
 
-                System.out.println(questionBank.getQuestionPrompt(i));
+                System.out.println(questionBank.getQuestionPrompt(i)
+                        + "\n Choices: " + questionBank.getQuestionAnswer(i) + " / " + "Angry"
+                        + " / " + "Nervous");
 
                 String playerAnswer = playerInput.nextLine();
 
@@ -84,20 +86,26 @@ public class GameFrame {
                     score++;
                 }
 
-                if (score > numberOfQuestions * 0.8) {
-                    System.out.println("You got " + score + " / " + numberOfQuestions + " question(s). Awesome work!");
-                } else if (score > numberOfQuestions * 0.7) {
-                    System.out.println("You got " + score + " / " + numberOfQuestions + " question(s). Not bad, "
-                            + "keep it up!");
-                } else {
-                    System.out.println("You got " + score + " / " + numberOfQuestions + " question(s). Try again! "
-                            + "Practice makes perfect!");
-
-                }
             }
+            scoreFeedback(score);
         }
+    }
 
+    // EFFECTS: Provide different feedbacks based on player's score
+    public void scoreFeedback(int score) {
 
+        int numberOfQuestions = questionBank.listAllQuestions().size() / 2;
+
+        if (score > numberOfQuestions * 0.8) {
+            System.out.println("You got " + score + " / " + numberOfQuestions + " question(s). Awesome work!");
+        } else if (score > numberOfQuestions * 0.7) {
+            System.out.println("You got " + score + " / " + numberOfQuestions + " question(s). Not bad, "
+                    + "keep it up!");
+        } else {
+            System.out.println("You got " + score + " / " + numberOfQuestions + " question(s). Try again! "
+                    + "Practice makes perfect!");
+
+        }
     }
 
     // MODIFIES: questionBank
