@@ -1,6 +1,7 @@
 package model;
 
 public class Question {
+
     private String prompt;
     private String answer;
 

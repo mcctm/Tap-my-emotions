@@ -8,7 +8,6 @@ import java.util.Scanner;
 // The user interface of the Application
 public class GameFrame {
 
-    private Scanner input;
     private QuestionBank questionBank;
 
     // EFFECTS: runs the game application
@@ -19,8 +18,9 @@ public class GameFrame {
     // MODIFIES: this
     // EFFECTS: processes user input
     private void runGameFrame() {
+        Scanner input;
         boolean keepGoing = true;
-        String command = null;
+        String command;
 
         input = new Scanner(System.in);
         questionBank = new QuestionBank();

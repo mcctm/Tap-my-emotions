@@ -15,20 +15,18 @@ public class QuestionBank {
     // MODIFIES: this
     // EFFECTS: adds a new Question (prompt and answer) to the collection of questions
     public void addQuestion(String prompt, String answer) {
-        Question question = new Question(prompt, answer);
+        Question question = new Question(prompt,answer);
         questionSet.add(question);
     }
 
     // EFFECTS: returns the prompt of a specific Question in the QuestionBank
     public String getQuestionPrompt(int i) {
-        String question = questionSet.get(i).getPrompt();
-        return question;
+        return questionSet.get(i).getPrompt();
     }
 
     // EFFECTS: returns the answer of a specific Question in the QuestionBank
     public String getQuestionAnswer(int i) {
-        String answer = questionSet.get(i).getAnswer();
-        return answer;
+        return questionSet.get(i).getAnswer();
     }
 
     // MODIFIES: this
