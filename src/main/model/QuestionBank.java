@@ -19,11 +19,13 @@ public class QuestionBank {
         questionSet.add(question);
     }
 
+    // EFFECTS: returns the prompt of a Question in the QuestionBank
     public String getQuestionPrompt(int i) {
         String question = questionSet.get(i).getPrompt();
         return question;
     }
 
+    // EFFECTS: returns the answer of a Question in the QuestionBank
     public String getQuestionAnswer(int i) {
         String answer = questionSet.get(i).getAnswer();
         return answer;
@@ -51,7 +53,8 @@ public class QuestionBank {
         return listOfAllQuestions;
     }
 
-
+    // MODIFIES: this
+    // EFFECTS: checks if the player's answer string match the question's correct answer
     public Boolean checkAnswer(String str, int i) {
 
         String correctAnswer = questionSet.get(i).getAnswer();
