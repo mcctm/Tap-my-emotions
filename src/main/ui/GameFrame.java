@@ -77,10 +77,11 @@ public class GameFrame {
             for (int i = 0; i < numberOfQuestions; i++) {
 
                 System.out.println(questionBank.getQuestionPrompt(i)
-                        + "\n Choices: " + questionBank.getQuestionAnswer(i) + " / " + "Angry"
-                        + " / " + "Nervous");
+                        + "\n Choices: " + questionBank.getQuestionAnswer(i) + " / " + "angry"
+                        + " / " + "nervous");
 
                 String playerAnswer = playerInput.nextLine();
+                playerAnswer = playerAnswer.toLowerCase();
 
                 if (questionBank.checkAnswer(playerAnswer, i)) {
                     score++;
@@ -119,6 +120,7 @@ public class GameFrame {
 
         System.out.println("Enter answer:");
         String designerAnswer = designerInput.nextLine();
+        designerAnswer = designerAnswer.toLowerCase();
 
         System.out.println("Your question is: " + "\"" + designerQuestion + "\""
                 + " and the answer is " + "\"" + designerAnswer + "\"");
