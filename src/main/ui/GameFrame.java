@@ -2,11 +2,10 @@ package ui;
 
 import model.QuestionBank;
 
-import java.util.ArrayList;
-
 import java.util.Scanner;
 
 // Referenced TellerApp
+// The user interface of the Application
 public class GameFrame {
 
     private Scanner input;
@@ -38,7 +37,7 @@ public class GameFrame {
             }
         }
 
-        System.out.println("\nGoodbye!");
+        System.out.println("Thanks for playing! See you again soon!");
     }
 
 
@@ -64,7 +63,7 @@ public class GameFrame {
 
 
     // REQUIRES: questionBank contains at least one Question element
-    // EFFECTS: Starts game for players to play, with score displayed at the end
+    // EFFECTS: Starts game for players to play, calculates their score at the end with different feedbacks
     public void startGame() {
 
         int score = 0;
@@ -72,19 +71,32 @@ public class GameFrame {
 
         int numberOfQuestions = questionBank.listAllQuestions().size() / 2;
 
-        for (int i = 0; i < numberOfQuestions; i++) {
+        if (numberOfQuestions == 0) {
+            System.out.println("No questions yet, see if anyone can input some questions for you to play? :)");
+        } else {
+            for (int i = 0; i < numberOfQuestions; i++) {
 
-            System.out.println(questionBank.getQuestionPrompt(i));
+                System.out.println(questionBank.getQuestionPrompt(i));
 
-            String playerAnswer = playerInput.nextLine();
-            String correctAnswer = questionBank.getQuestionAnswer(i);
+                String playerAnswer = playerInput.nextLine();
 
-            if (playerAnswer.equals(correctAnswer)) {
-                score++;
+                if (questionBank.checkAnswer(playerAnswer, i)) {
+                    score++;
+                }
+
+                if (score > numberOfQuestions * 0.8) {
+                    System.out.println("You got " + score + " / " + numberOfQuestions + " question(s). Awesome work!");
+                } else if (score > numberOfQuestions * 0.7) {
+                    System.out.println("You got " + score + " / " + numberOfQuestions + " question(s). Not bad, "
+                            + "keep it up!");
+                } else {
+                    System.out.println("You got " + score + " / " + numberOfQuestions + " question(s). Try again! "
+                            + "Practice makes perfect!");
+
+                }
             }
-
         }
-        System.out.println("You got " + score + " / " + numberOfQuestions + " questions. Keep it up!");
+
 
     }
 
@@ -93,10 +105,10 @@ public class GameFrame {
     public void startDesign() {
 
         Scanner designerInput = new Scanner(System.in);
-        String selection = "";
 
         System.out.println("Enter question:");
         String designerQuestion = designerInput.nextLine();
+
         System.out.println("Enter answer:");
         String designerAnswer = designerInput.nextLine();
 

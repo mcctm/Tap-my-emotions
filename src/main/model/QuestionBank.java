@@ -13,28 +13,27 @@ public class QuestionBank {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds a new question to the collection of questions
+    // EFFECTS: adds a new Question (prompt and answer) to the collection of questions
     public void addQuestion(String prompt, String answer) {
         Question question = new Question(prompt, answer);
         questionSet.add(question);
     }
 
-    // EFFECTS: returns the prompt of a Question in the QuestionBank
+    // EFFECTS: returns the prompt of a specific Question in the QuestionBank
     public String getQuestionPrompt(int i) {
         String question = questionSet.get(i).getPrompt();
         return question;
     }
 
-    // EFFECTS: returns the answer of a Question in the QuestionBank
+    // EFFECTS: returns the answer of a specific Question in the QuestionBank
     public String getQuestionAnswer(int i) {
         String answer = questionSet.get(i).getAnswer();
         return answer;
     }
 
     // MODIFIES: this
-    // EFFECTS: returns the list of the questions added into the collection of questions
-    // the list returned could be empty (it is never null). The list returned consists
-    // of both the answer and its prompt
+    // EFFECTS: returns the list of all questions added (both the prompt and the answer)
+    // The list returned could be empty (it is never null).
     public List<String> listAllQuestions() {
 
         List listOfAllQuestions = new ArrayList<String>();
@@ -54,7 +53,7 @@ public class QuestionBank {
     }
 
     // MODIFIES: this
-    // EFFECTS: checks if the player's answer string match the question's correct answer
+    // EFFECTS: checks if the given string matches the given question's correct answer
     public Boolean checkAnswer(String str, int i) {
 
         String correctAnswer = questionSet.get(i).getAnswer();

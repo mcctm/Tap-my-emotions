@@ -33,5 +33,6 @@ themselves emotionally because they do not understand the variety of emotions on
 
 - As a user, I want to be able to choose if I am the designer or player.
 - As a user (player), I want to be able to view all question prompts from the question bank, one at a time.
-- As a user (player), I want to be able to type in my answer, and see my total correct score.
+- As a user (player), I want to be able to type in my answer.
+- As a user (player), I want to see my total score after I have finished, and receive corresponding feedback.
 - As a user (designer), I want to be able to add a new question (prompt and answer) to the question bank.
