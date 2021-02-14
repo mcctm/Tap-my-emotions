@@ -61,8 +61,7 @@ public class GameFrame {
         }
     }
 
-
-    // REQUIRES: questionBank contains at least one Question element
+    // MODIFIES: this
     // EFFECTS: Starts game for players to play, calculates their score at the end
     public void startGame() {
 
@@ -109,7 +108,7 @@ public class GameFrame {
         }
     }
 
-    // MODIFIES: questionBank
+    // MODIFIES: this
     // EFFECTS: Starts application for designers to input new questions
     public void startDesign() {
 

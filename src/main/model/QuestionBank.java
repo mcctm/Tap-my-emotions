@@ -7,7 +7,7 @@ public class QuestionBank {
 
     protected List<Question> questionSet;
 
-    // EFFECTS: constructs a collection of questions containing two existing questions
+    // EFFECTS: constructs a list of Questions
     public QuestionBank() {
         this.questionSet = new ArrayList<>();
     }
@@ -50,7 +50,6 @@ public class QuestionBank {
         return listOfAllQuestions;
     }
 
-    // MODIFIES: this
     // EFFECTS: checks if the given string matches the given question's correct answer
     public Boolean checkAnswer(String str, int i) {
 
