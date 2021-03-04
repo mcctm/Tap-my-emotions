@@ -1,0 +1,12 @@
+{
+  "questions": [
+    {
+      "answer": "joyful",
+      "prompt": "I am happy. How do I feel?"
+    },
+    {
+      "answer": "sad",
+      "prompt": "He feels like crying. How does he feel?"
+    }
+  ]
+}

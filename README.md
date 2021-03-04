@@ -36,3 +36,5 @@ themselves emotionally because they do not understand the variety of emotions on
 - As a user (player), I want to be able to type in my answer for the given question.
 - As a user (player), I want to see my score after I have completed the game, and receive corresponding feedback.
 - As a user (designer), I want to be able to add multiple new questions to the question bank.
+- As a user, I want to be able to save the question bank to file.
+- As a user, I want to be able to load the question bank from file.

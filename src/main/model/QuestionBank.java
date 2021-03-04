@@ -1,9 +1,12 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
 
-public class QuestionBank {
+import java.util.*;
+
+public class QuestionBank implements Writable {
 
     protected List<Question> questionSet;
 
@@ -29,12 +32,17 @@ public class QuestionBank {
         return questionSet.get(i).getAnswer();
     }
 
+    // EFFECTS: returns an unmodifiable list of thingies in this workroom
+    public List<Question> getQuestionSetInListOfQuestion() {
+        return Collections.unmodifiableList(questionSet);
+    }
+
     // MODIFIES: this
     // EFFECTS: returns the list of all questions added (both the prompt and the answer)
     // The list returned could be empty (it is never null).
-    public List<String> listAllQuestions() {
+    public List<String> listAllQuestionsInListOfString() {
 
-        List listOfAllQuestions = new ArrayList<String>();
+        ArrayList listOfAllQuestions = new ArrayList<String>();
 
         for (int i = 0; i < questionSet.size(); i++) {
 
@@ -46,7 +54,7 @@ public class QuestionBank {
             listOfAllQuestions.add(answer);
 
         }
-
+        Collections.shuffle(questionSet, new Random());
         return listOfAllQuestions;
     }
 
@@ -59,5 +67,21 @@ public class QuestionBank {
 
     }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("questions", questionsToJson());
+        return json;
+    }
 
+    // EFFECTS: returns questions in this question set as a JSON array
+    private JSONArray questionsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Question q : questionSet) {
+            jsonArray.put(q.toJson());
+        }
+
+        return jsonArray;
+    }
 }

@@ -17,7 +17,7 @@ class QuestionTest {
         String designerAnswer = "Sad";
         questionBank.addQuestion(designerQuestion, designerAnswer);
 
-        List<String> result = questionBank.listAllQuestions();
+        List<String> result = questionBank.listAllQuestionsInListOfString();
 
         assertTrue(result.contains("Mary lost her favourite pen. How would she feel?"));
         assertTrue(result.contains("Sad"));
@@ -38,7 +38,7 @@ class QuestionTest {
         String designerAnswer2 = "Happy";
         questionBank.addQuestion(designerQuestion2, designerAnswer2);
 
-        List<String> result = questionBank.listAllQuestions();
+        List<String> result = questionBank.listAllQuestionsInListOfString();
 
         assertTrue(result.contains("Mary lost her favourite pen. How would she feel?"));
         assertTrue(result.contains("Tom's mother gave him a present for his birthday. How would he feel?"));

@@ -1,14 +1,21 @@
 package ui;
 
 import model.QuestionBank;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
-// Referenced TellerApp
+// Referenced TellerApp for ui and JsonSerializationDemo for saving and loading of files
 // The user interface of the Application
 public class GameFrame {
 
+    private static final String JSON_STORE = "./data/questionbank.json";
     private QuestionBank questionBank;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: runs the game application
     public GameFrame() {
@@ -24,6 +31,8 @@ public class GameFrame {
 
         input = new Scanner(System.in);
         questionBank = new QuestionBank();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
 
         while (keepGoing) {
             displayMenu();
@@ -46,6 +55,8 @@ public class GameFrame {
         System.out.println("\nAre you a player or designer?");
         System.out.println("\tp -> player");
         System.out.println("\td -> designer");
+        System.out.println("\ts -> save questions to question bank");
+        System.out.println("\tl -> load questions from question bank");
         System.out.println("\tq -> quit");
     }
 
@@ -56,6 +67,10 @@ public class GameFrame {
             startGame();
         } else if (command.equals("d")) {
             startDesign();
+        } else if (command.equals("s")) {
+            saveQuestionBank();
+        } else if (command.equals("l")) {
+            loadQuestionBank();
         } else {
             System.out.println("Selection not valid. Try again!");
         }
@@ -68,10 +83,10 @@ public class GameFrame {
         int score = 0;
         Scanner playerInput = new Scanner(System.in);
 
-        int numberOfQuestions = questionBank.listAllQuestions().size() / 2;
+        int numberOfQuestions = questionBank.listAllQuestionsInListOfString().size() / 2;
 
         if (numberOfQuestions == 0) {
-            System.out.println("No questions yet, see if anyone can input some questions for you to play? :)");
+            System.out.println("No questions yet... Do you want to load some questions from the question bank? :)");
         } else {
             for (int i = 0; i < numberOfQuestions; i++) {
 
@@ -84,6 +99,11 @@ public class GameFrame {
 
                 if (questionBank.checkAnswer(playerAnswer, i)) {
                     score++;
+                    System.out.println("That's right! The correct answer was "
+                            + "\"" + questionBank.getQuestionAnswer(i) + "\"" + ". Keep it up!");
+                } else {
+                    System.out.println("Incorrect answer. The correct answer was "
+                            + "\"" + questionBank.getQuestionAnswer(i) + "\"" + ". Keep going!");
                 }
 
             }
@@ -94,7 +114,7 @@ public class GameFrame {
     // EFFECTS: Provide different feedbacks based on player's score
     public void scoreFeedback(int score) {
 
-        int numberOfQuestions = questionBank.listAllQuestions().size() / 2;
+        int numberOfQuestions = questionBank.listAllQuestionsInListOfString().size() / 2;
 
         if (score > numberOfQuestions * 0.8) {
             System.out.println("You got " + score + " / " + numberOfQuestions + " question(s). Awesome work!");
@@ -111,24 +131,50 @@ public class GameFrame {
     // MODIFIES: this
     // EFFECTS: Starts application for designers to input new questions
     public void startDesign() {
+        try {
+            Scanner designerInput = new Scanner(System.in);
+            questionBank = jsonReader.read();
 
-        Scanner designerInput = new Scanner(System.in);
+            System.out.println("Enter question:");
+            String designerQuestion = designerInput.nextLine();
 
-        System.out.println("Enter question:");
-        String designerQuestion = designerInput.nextLine();
+            System.out.println("Enter answer:");
+            String designerAnswer = designerInput.nextLine();
+            designerAnswer = designerAnswer.toLowerCase();
 
-        System.out.println("Enter answer:");
-        String designerAnswer = designerInput.nextLine();
-        designerAnswer = designerAnswer.toLowerCase();
+            System.out.println("Your question is: " + "\"" + designerQuestion + "\""
+                    + " and the answer is " + "\"" + designerAnswer + "\"");
 
-        System.out.println("Your question is: " + "\"" + designerQuestion + "\""
-                + " and the answer is " + "\"" + designerAnswer + "\"");
+            questionBank.addQuestion(designerQuestion, designerAnswer);
 
-        questionBank.addQuestion(designerQuestion, designerAnswer);
+            System.out.println("Successfully entered. Returning to homepage.");
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
 
-        System.out.println("Successfully entered. Returning to homepage.");
+    }
 
+    // EFFECTS: saves the question bank to file
+    private void saveQuestionBank() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(questionBank);
+            jsonWriter.close();
+            System.out.println("Saved questions to" + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
 
+    // MODIFIES: this
+    // EFFECTS: loads question bank from file
+    private void loadQuestionBank() {
+        try {
+            questionBank = jsonReader.read();
+            System.out.println("Loaded questions from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
     }
 
 
