@@ -1,20 +1,22 @@
-{
-  "questions": [
+{"questions": [
     {
-      "answer": "painful",
-      "prompt": "Susan fell down the stairs. How does she feel?"
+        "answer": "painful",
+        "prompt": "Susan fell down the stairs. How does she feel?"
     },
     {
-      "answer": "shy",
-      "prompt": "Tom is meeting some new friends for the first time. How would he feel?"
+        "answer": "shy",
+        "prompt": "Tom is meeting some new friends for the first time. How would he feel?"
     },
     {
-      "answer": "happy",
-      "prompt": "Your parents bought your favourite noodles for dinner. How do you feel?"
+        "answer": "happy",
+        "prompt": "Your parents bought your favourite noodles for dinner. How do you feel?"
     },
     {
-      "answer": "angry",
-      "prompt": "Your classmate broke your favourite pencil on purpose. How would you feel?"
+        "answer": "angry",
+        "prompt": "Your classmate broke your favourite pencil on purpose. How would you feel?"
+    },
+    {
+        "answer": "hungry",
+        "prompt": "Bob hasn't eaten for the whole day. How does he feel?"
     }
-  ]
-}
+]}

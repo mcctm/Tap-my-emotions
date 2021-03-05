@@ -68,6 +68,7 @@ public class QuestionBank implements Writable {
     }
 
     @Override
+    // EFFECTS: see interface Writable
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("questions", questionsToJson());

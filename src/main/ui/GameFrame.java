@@ -157,10 +157,14 @@ public class GameFrame {
     // EFFECTS: saves the question bank to file
     private void saveQuestionBank() {
         try {
-            jsonWriter.open();
-            jsonWriter.write(questionBank);
-            jsonWriter.close();
-            System.out.println("Saved questions to" + JSON_STORE);
+            if (questionBank.getQuestionSetInListOfQuestion().size() == 0) {
+                System.out.println("Question bank not saved as there are no new questions added.");
+            } else {
+                jsonWriter.open();
+                jsonWriter.write(questionBank);
+                jsonWriter.close();
+                System.out.println("Saved questions to" + JSON_STORE);
+            }
         } catch (FileNotFoundException e) {
             System.out.println("Unable to write to file: " + JSON_STORE);
         }
