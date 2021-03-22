@@ -1,6 +1,6 @@
 package ui;
 
-public class Main {
+public class ConsoleMain {
 
     public static void main(String[] args) {
         new GameFrame();
