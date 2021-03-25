@@ -9,8 +9,8 @@ import java.awt.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class GraphicalHomeFrame extends JFrame implements ActionListener {
 
@@ -22,6 +22,7 @@ public class GraphicalHomeFrame extends JFrame implements ActionListener {
     protected JFrame frame;
     protected JPanel panel;
     protected JLabel title;
+    private JLabel successfullyLoadedMessage;
 
     public GraphicalHomeFrame() {
         frame = new JFrame();
@@ -43,8 +44,8 @@ public class GraphicalHomeFrame extends JFrame implements ActionListener {
         JLabel imageLabel = new JLabel(scaledIcon);
         panel.add(imageLabel);
 
-        createPlayGameAndDesignGameTools();
-        createLoadGameAndSaveGameTools();
+        playGameAndDesignGameTools();
+        loadGameTool();
 
         frame.add(panel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,16 +60,10 @@ public class GraphicalHomeFrame extends JFrame implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS:  a helper method which declares and instantiates Play game and Design new game tools
-    private void createPlayGameAndDesignGameTools() {
+    private void playGameAndDesignGameTools() {
 
         JButton playGameButton = new JButton("Play game");
-        playGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new GraphicalPlayFrame();
-                dispose();
-            }
-        });
+        playGameButton.addActionListener(e -> new GraphicalPlayFrame());
         panel.add(playGameButton);
 
         JButton designGameButton = new JButton("Design new questions");
@@ -79,42 +74,32 @@ public class GraphicalHomeFrame extends JFrame implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS:  a helper method which declares and instantiates tools to load and save game
-    private void createLoadGameAndSaveGameTools() {
+    private void loadGameTool() {
 
         JButton loadQuestionsButton = new JButton("Load question bank");
         loadQuestionsButton.addActionListener(this);
         panel.add(loadQuestionsButton);
 
-        JButton saveQuestionsButton = new JButton("Save question bank");
-        saveQuestionsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    if (questionBank.getQuestionSetInListOfQuestion().size() == 0) {
-                        System.out.println("Question bank not saved as there are no new questions added.");
-                    } else {
-                        jsonWriter.open();
-                        jsonWriter.write(questionBank);
-                        jsonWriter.close();
-                        System.out.println("Saved questions to" + JSON_STORE);
-                    }
-                } catch (FileNotFoundException exception) {
-                    System.out.println("Unable to write to file: " + JSON_STORE);
-                }
+    }
 
-            }
-        });
-        panel.add(saveQuestionsButton);
-
+    public void init() {
+        try {
+            Scanner input;
+            input = new Scanner(System.in);
+            questionBank = new QuestionBank();
+            jsonWriter = new JsonWriter(JSON_STORE);
+            jsonReader = new JsonReader(JSON_STORE);
+            questionBank = jsonReader.read();
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        try {
-            questionBank = jsonReader.read();
-            System.out.println("Loaded questions from " + JSON_STORE);
-        } catch (IOException exception) {
-            System.out.println("Unable to read from file: " + JSON_STORE);
-        }
+        init();
+        System.out.println("Loaded questions from " + JSON_STORE);
+        JOptionPane.showMessageDialog(frame, "Successfully loaded the questions.");
     }
+
 }

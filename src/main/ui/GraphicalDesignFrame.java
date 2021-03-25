@@ -1,16 +1,10 @@
 package ui;
 
-import model.QuestionBank;
-import persistence.JsonReader;
-import persistence.JsonWriter;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Scanner;
 
 public class GraphicalDesignFrame extends GraphicalHomeFrame implements ActionListener {
 
@@ -35,23 +29,9 @@ public class GraphicalDesignFrame extends GraphicalHomeFrame implements ActionLi
         questionTool();
         answerTool();
         submitTool();
-        addedToQuestionBankMessage();
 
         frame.setVisible(true);
 
-    }
-
-    public void init() {
-        try {
-            Scanner input;
-            input = new Scanner(System.in);
-            questionBank = new QuestionBank();
-            jsonWriter = new JsonWriter(JSON_STORE);
-            jsonReader = new JsonReader(JSON_STORE);
-            questionBank = jsonReader.read();
-        } catch (IOException e) {
-            System.out.println("Unable to read from file: " + JSON_STORE);
-        }
     }
 
     public void questionTool() {
@@ -81,12 +61,6 @@ public class GraphicalDesignFrame extends GraphicalHomeFrame implements ActionLi
         panel.add(submitButton);
     }
 
-    public void addedToQuestionBankMessage() {
-        addedToQuestionBank = new JLabel("");
-        addedToQuestionBank.setBounds(50, 180, 1000, 100);
-        panel.add(addedToQuestionBank);
-    }
-
     public static void main(String[] args) {
         new GraphicalDesignFrame();
     }
@@ -97,13 +71,22 @@ public class GraphicalDesignFrame extends GraphicalHomeFrame implements ActionLi
             String question = userQuestionText.getText();
             String answer = userAnswerText.getText();
             questionBank.addQuestion(question, answer);
-            addedToQuestionBank.setText("Your question is: " + "\""
-                    + question + "\""
-                    + " and the answer is " + "\"" + answer + "\""
-                    + ". It has been successfully added.");
-            jsonWriter.open();
-            jsonWriter.write(questionBank);
-            jsonWriter.close();
+
+            Object[] options = {"No, only for this game", "Save forever"};
+            int optionDialog = JOptionPane.showOptionDialog(frame,
+                    "Your question is: " + "\""
+                            + question + "\"."
+                            + " \n The answer is " + "\"" + answer + "\""
+                            + ". \n It has been successfully added. \n Save it to question bank forever?",
+                    "Forever and ever?",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                    null, options, options[1]);
+
+            if (optionDialog == JOptionPane.NO_OPTION) {
+                jsonWriter.open();
+                jsonWriter.write(questionBank);
+                jsonWriter.close();
+            }
         } catch (FileNotFoundException fileNotFoundException) {
             System.out.println("Unable to write to file: " + JSON_STORE);
         }
