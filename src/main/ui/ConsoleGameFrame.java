@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 // Referenced TellerApp for ui and JsonSerializationDemo for saving and loading of files
 // The user interface of the Application
-public class GameFrame {
+public class ConsoleGameFrame {
 
     private static final String JSON_STORE = "./data/questionbank.json";
     private QuestionBank questionBank;
@@ -18,7 +18,7 @@ public class GameFrame {
     private JsonReader jsonReader;
 
     // EFFECTS: runs the game application
-    public GameFrame() {
+    public ConsoleGameFrame() {
         runGameFrame();
     }
 
