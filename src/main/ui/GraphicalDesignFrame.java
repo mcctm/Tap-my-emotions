@@ -13,7 +13,6 @@ public class GraphicalDesignFrame extends GraphicalHomeFrame implements ActionLi
     private JTextField userQuestionText;
     private JTextField userAnswerText;
     private JButton submitButton;
-    private JLabel addedToQuestionBank;
 
     public GraphicalDesignFrame() {
         init();
