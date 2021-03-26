@@ -22,7 +22,6 @@ public class GraphicalHomeFrame extends JFrame implements ActionListener {
     protected JFrame frame;
     protected JPanel panel;
     protected JLabel title;
-    private JLabel successfullyLoadedMessage;
 
     public GraphicalHomeFrame() {
         frame = new JFrame();

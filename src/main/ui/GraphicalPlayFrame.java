@@ -1,13 +1,26 @@
 package ui;
 
+import model.QuestionBank;
+import persistence.JsonReader;
+import persistence.JsonWriter;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
-public class GraphicalPlayFrame extends GraphicalHomeFrame implements ActionListener {
+public class GraphicalPlayFrame implements ActionListener {
+
+    protected static final String JSON_STORE = "./data/questionbank.json";
+    protected QuestionBank questionBank;
+    protected JsonWriter jsonWriter;
+    protected JsonReader jsonReader;
+    protected JFrame frame;
+    protected JPanel panel;
 
     private JLabel questionPrompt;
     private JLabel answerLabel;
@@ -38,12 +51,11 @@ public class GraphicalPlayFrame extends GraphicalHomeFrame implements ActionList
     }
 
     private void playGame() {
+        userAnswersTextField = new ArrayList<>();
+        correctAnswers = new ArrayList<>();
 
         init();
         int numberOfQuestions = questionBank.listAllQuestionsInListOfString().size() / 2;
-
-        userAnswersTextField = new ArrayList<>();
-        correctAnswers = new ArrayList<>();
 
         for (int i = 0; i < numberOfQuestions; i++) {
 
@@ -69,7 +81,6 @@ public class GraphicalPlayFrame extends GraphicalHomeFrame implements ActionList
         submitButton.setBounds(150, 700, 165, 25);
         submitButton.addActionListener(this);
         panel.add(submitButton);
-
     }
 
 
@@ -79,14 +90,29 @@ public class GraphicalPlayFrame extends GraphicalHomeFrame implements ActionList
         int numberOfQuestions = questionBank.listAllQuestionsInListOfString().size() / 2;
 
         if (score > numberOfQuestions * 0.8) {
-            System.out.println("You got " + score + " / " + numberOfQuestions + " question(s). Awesome work!");
-        } else if (score > numberOfQuestions * 0.7) {
-            System.out.println("You got " + score + " / " + numberOfQuestions + " question(s). Not bad, "
-                    + "keep it up!");
-        } else {
-            System.out.println("You got " + score + " / " + numberOfQuestions + " question(s). Try again! "
-                    + "Practice makes perfect!");
+            String feedback = "Awesome work!";
+            feedbackMessage(feedback, numberOfQuestions);
 
+        } else if (score > numberOfQuestions * 0.7) {
+            String feedback = "Not bad, keep it up!";
+            feedbackMessage(feedback, numberOfQuestions);
+        } else {
+            String feedback = "Try again! Practice makes perfect!";
+            feedbackMessage(feedback, numberOfQuestions);
+        }
+    }
+
+    public void feedbackMessage(String feedback, int numberOfQuestions) {
+        Object[] options = {"Return to homepage"};
+        int optionDialog = JOptionPane.showOptionDialog(frame,
+                "You got " + score + " / " + numberOfQuestions + " question(s).\n"
+                        + feedback,
+                "How did you do?",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                null, options, options[0]);
+
+        if (optionDialog == JOptionPane.YES_OPTION) {
+            new GraphicalHomeFrame();
         }
     }
 
@@ -108,6 +134,19 @@ public class GraphicalPlayFrame extends GraphicalHomeFrame implements ActionList
             }
         }
         scoreFeedback(score);
+    }
+
+    public void init() {
+        try {
+            Scanner input;
+            input = new Scanner(System.in);
+            questionBank = new QuestionBank();
+            jsonWriter = new JsonWriter(JSON_STORE);
+            jsonReader = new JsonReader(JSON_STORE);
+            questionBank = jsonReader.read();
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
     }
 
 }

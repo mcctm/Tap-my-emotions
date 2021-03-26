@@ -1,12 +1,25 @@
 package ui;
 
+import model.QuestionBank;
+import persistence.JsonReader;
+import persistence.JsonWriter;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Scanner;
 
-public class GraphicalDesignFrame extends GraphicalHomeFrame implements ActionListener {
+public class GraphicalDesignFrame implements ActionListener {
+
+    protected static final String JSON_STORE = "./data/questionbank.json";
+    protected QuestionBank questionBank;
+    protected JsonWriter jsonWriter;
+    protected JsonReader jsonReader;
+    protected JFrame frame;
+    protected JPanel panel;
 
     private JLabel questionLabel;
     private JLabel answerLabel;
@@ -90,6 +103,19 @@ public class GraphicalDesignFrame extends GraphicalHomeFrame implements ActionLi
             System.out.println("Unable to write to file: " + JSON_STORE);
         }
 
+    }
+
+    public void init() {
+        try {
+            Scanner input;
+            input = new Scanner(System.in);
+            questionBank = new QuestionBank();
+            jsonWriter = new JsonWriter(JSON_STORE);
+            jsonReader = new JsonReader(JSON_STORE);
+            questionBank = jsonReader.read();
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
     }
 
 }
