@@ -4,14 +4,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GraphicalPlayFrame extends GraphicalHomeFrame implements ActionListener {
 
     private JLabel questionPrompt;
     private JLabel answerLabel;
-    private JTextField userAnswerText;
     private JButton submitButton;
+    private List<JTextField> userAnswersTextField;
+    private List<String> userAnswersInString;
+    private List<String> correctAnswers;
+    private Integer score;
 
     public GraphicalPlayFrame() {
         frame = new JFrame();
@@ -38,6 +42,9 @@ public class GraphicalPlayFrame extends GraphicalHomeFrame implements ActionList
         init();
         int numberOfQuestions = questionBank.listAllQuestionsInListOfString().size() / 2;
 
+        userAnswersTextField = new ArrayList<>();
+        correctAnswers = new ArrayList<>();
+
         for (int i = 0; i < numberOfQuestions; i++) {
 
             questionPrompt = new JLabel(questionBank.getQuestionPrompt(i));
@@ -49,15 +56,20 @@ public class GraphicalPlayFrame extends GraphicalHomeFrame implements ActionList
             answerLabel.setBounds(10, 50 + 100 * i, 1000, 25);
             panel.add(answerLabel);
 
-            userAnswerText = new JTextField(100);
-            userAnswerText.setBounds(65, 80 + 100 * i, 165, 25);
-            panel.add(userAnswerText);
+            JTextField userAnswer = new JTextField();
+            userAnswer.setBounds(65, 80 + 100 * i, 165, 25);
+            panel.add(userAnswer);
+
+            userAnswersTextField.add(userAnswer);
+            correctAnswers.add(questionBank.getQuestionAnswer(i));
 
         }
-        submitButton = new JButton("Check how you did!");
-        submitButton.setBounds(120, 100 + 100 * numberOfQuestions, 180, 25);
+
+        submitButton = new JButton("Submit");
+        submitButton.setBounds(150, 700, 165, 25);
         submitButton.addActionListener(this);
         panel.add(submitButton);
+
     }
 
 
@@ -80,7 +92,22 @@ public class GraphicalPlayFrame extends GraphicalHomeFrame implements ActionList
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        userAnswersInString = new ArrayList<>();
+        for (JTextField field : userAnswersTextField) {
+            userAnswersInString.add(field.getText().toLowerCase());
+        }
+        calculateScoreAndProvideFeedback();
 
+    }
+
+    private void calculateScoreAndProvideFeedback() {
+        score = 0;
+        for (int i = 0; i < userAnswersInString.size(); i++) {
+            if (userAnswersInString.get(i).equals(correctAnswers.get(i))) {
+                score++;
+            }
+        }
+        scoreFeedback(score);
     }
 
 }
