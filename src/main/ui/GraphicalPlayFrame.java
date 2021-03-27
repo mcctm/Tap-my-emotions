@@ -55,6 +55,8 @@ public class GraphicalPlayFrame implements ActionListener {
         new GraphicalPlayFrame();
     }
 
+    // MODIFIES: this
+    // EFFECTS: declares and instantiates all labels and submit button for the game
     private void playGame() {
         userAnswersTextField = new ArrayList<>();
         correctAnswers = new ArrayList<>();
@@ -88,8 +90,62 @@ public class GraphicalPlayFrame implements ActionListener {
         panel.add(submitButton);
     }
 
+    // MODIFIES: this
+    // EFFECTS: initializes questionBank and loads it from json
+    public void init() {
+        try {
+            Scanner input;
+            input = new Scanner(System.in);
+            questionBank = new QuestionBank();
+            jsonWriter = new JsonWriter(JSON_STORE);
+            jsonReader = new JsonReader(JSON_STORE);
+            questionBank = jsonReader.read();
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+    }
 
-    // EFFECTS: Provide different feedbacks based on player's score
+    // MODIFIES: this
+    // EFFECTS: plays sound when submit button is pressed,
+    //          gets textfields of all answered questions to calculate score and provide feedback
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        playSound("./data/tada.wav");
+        userAnswersInString = new ArrayList<>();
+        for (JTextField field : userAnswersTextField) {
+            userAnswersInString.add(field.getText().toLowerCase());
+        }
+        calculateScoreAndProvideFeedback();
+
+    }
+
+    // MODIFIES: this
+    // EFFECTS: helper method to play sound
+    public static void playSound(String audio) {
+        InputStream music;
+        try {
+            music = new FileInputStream(new File(audio));
+            AudioStream audios = new AudioStream(music);
+            AudioPlayer.player.start(audios);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error playing sound");
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: compares players' answers to the correct answer, then calculate their score and provide feedback
+    private void calculateScoreAndProvideFeedback() {
+        score = 0;
+        for (int i = 0; i < userAnswersInString.size(); i++) {
+            if (userAnswersInString.get(i).equals(correctAnswers.get(i))) {
+                score++;
+            }
+        }
+        scoreFeedback(score);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: helper method to provide different feedback based on player's score
     public void scoreFeedback(int score) {
 
         int numberOfQuestions = questionBank.listAllQuestionsInListOfString().size() / 2;
@@ -107,6 +163,8 @@ public class GraphicalPlayFrame implements ActionListener {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: helper method to display appropriate feedback message
     public void feedbackMessage(String feedback, int numberOfQuestions) {
         Object[] options = {"Return to homepage"};
         int optionDialog = JOptionPane.showOptionDialog(frame,
@@ -118,51 +176,6 @@ public class GraphicalPlayFrame implements ActionListener {
 
         if (optionDialog == JOptionPane.YES_OPTION) {
             new GraphicalHomeFrame();
-        }
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        playSound("./data/tada.wav");
-        userAnswersInString = new ArrayList<>();
-        for (JTextField field : userAnswersTextField) {
-            userAnswersInString.add(field.getText().toLowerCase());
-        }
-        calculateScoreAndProvideFeedback();
-
-    }
-
-    private void calculateScoreAndProvideFeedback() {
-        score = 0;
-        for (int i = 0; i < userAnswersInString.size(); i++) {
-            if (userAnswersInString.get(i).equals(correctAnswers.get(i))) {
-                score++;
-            }
-        }
-        scoreFeedback(score);
-    }
-
-    public void init() {
-        try {
-            Scanner input;
-            input = new Scanner(System.in);
-            questionBank = new QuestionBank();
-            jsonWriter = new JsonWriter(JSON_STORE);
-            jsonReader = new JsonReader(JSON_STORE);
-            questionBank = jsonReader.read();
-        } catch (IOException e) {
-            System.out.println("Unable to read from file: " + JSON_STORE);
-        }
-    }
-
-    public static void playSound(String audio) {
-        InputStream music;
-        try {
-            music = new FileInputStream(new File(audio));
-            AudioStream audios = new AudioStream(music);
-            AudioPlayer.player.start(audios);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error playing sound");
         }
     }
 

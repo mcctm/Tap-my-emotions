@@ -45,7 +45,6 @@ public class GraphicalHomeFrame extends JFrame implements ActionListener {
         frame.setVisible(true);
     }
 
-    // EFFECTS: runs a new GraphicalHomeFrame
     public static void main(String[] args) {
         new GraphicalHomeFrame();
     }
@@ -112,7 +111,7 @@ public class GraphicalHomeFrame extends JFrame implements ActionListener {
     }
 
     // MODIFIES: this
-    // EFFECTS: helper method that initializes questionBank and loads it from json
+    // EFFECTS: initializes questionBank and loads it from json
     public void init() {
         try {
             Scanner input;

@@ -46,11 +46,27 @@ public class GraphicalDesignFrame implements ActionListener {
 
     }
 
-    // EFFECTS: runs a new GraphicalDesignFrame
     public static void main(String[] args) {
         new GraphicalDesignFrame();
     }
 
+    // MODIFIES: this
+    // EFFECTS: initializes questionBank and loads it from json
+    public void init() {
+        try {
+            Scanner input;
+            input = new Scanner(System.in);
+            questionBank = new QuestionBank();
+            jsonWriter = new JsonWriter(JSON_STORE);
+            jsonReader = new JsonReader(JSON_STORE);
+            questionBank = jsonReader.read();
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: declares and instantiates label and button to add question prompt
     public void questionTool() {
         questionLabel = new JLabel("Enter question:");
         questionLabel.setBounds(10, 20, 200, 25);
@@ -61,6 +77,8 @@ public class GraphicalDesignFrame implements ActionListener {
         panel.add(userQuestionText);
     }
 
+    // MODIFIES: this
+    // EFFECTS: declares and instantiates label and button to add question answer
     public void answerTool() {
         answerLabel = new JLabel("Enter answer:");
         answerLabel.setBounds(10, 50, 200, 25);
@@ -71,6 +89,8 @@ public class GraphicalDesignFrame implements ActionListener {
         panel.add(userAnswerText);
     }
 
+    // MODIFIES: this
+    // EFFECTS: declares and instantiates button to submit the newly added question
     public void submitTool() {
         submitButton = new JButton("Submit");
         submitButton.setBounds(120, 100, 80, 25);
@@ -78,6 +98,8 @@ public class GraphicalDesignFrame implements ActionListener {
         panel.add(submitButton);
     }
 
+    // MODIFIES: this
+    // EFFECTS: submits new question to questionBank, prompts users to save the question into the json file
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
@@ -85,7 +107,7 @@ public class GraphicalDesignFrame implements ActionListener {
             String answer = userAnswerText.getText();
             questionBank.addQuestion(question, answer);
 
-            Object[] options = {"No, only for this game", "Save forever"};
+            Object[] options = {"Never mind", "Save forever"};
             int optionDialog = JOptionPane.showOptionDialog(frame,
                     "Your question is: " + "\""
                             + question + "\"."
@@ -104,19 +126,6 @@ public class GraphicalDesignFrame implements ActionListener {
             System.out.println("Unable to write to file: " + JSON_STORE);
         }
 
-    }
-
-    public void init() {
-        try {
-            Scanner input;
-            input = new Scanner(System.in);
-            questionBank = new QuestionBank();
-            jsonWriter = new JsonWriter(JSON_STORE);
-            jsonReader = new JsonReader(JSON_STORE);
-            questionBank = jsonReader.read();
-        } catch (IOException e) {
-            System.out.println("Unable to read from file: " + JSON_STORE);
-        }
     }
 
 }
