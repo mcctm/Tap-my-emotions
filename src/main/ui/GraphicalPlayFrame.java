@@ -7,6 +7,7 @@ import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,6 +41,10 @@ public class GraphicalPlayFrame implements ActionListener {
         panel = new JPanel();
         frame.setSize(800, 800);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        panel.setLayout(null);
+        panel.setBackground(Color.getHSBColor(60, 0, 30));
+
         frame.add(panel);
 
         panel.setLayout(null);
@@ -85,7 +90,7 @@ public class GraphicalPlayFrame implements ActionListener {
         }
 
         submitButton = new JButton("Submit");
-        submitButton.setBounds(150, 700, 165, 25);
+        submitButton.setBounds(150, 300 + numberOfQuestions * 70, 165, 25);
         submitButton.addActionListener(this);
         panel.add(submitButton);
     }
