@@ -3,12 +3,17 @@ package ui;
 import model.QuestionBank;
 import persistence.JsonReader;
 import persistence.JsonWriter;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -118,6 +123,7 @@ public class GraphicalPlayFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        playSound("./data/tada.wav");
         userAnswersInString = new ArrayList<>();
         for (JTextField field : userAnswersTextField) {
             userAnswersInString.add(field.getText().toLowerCase());
@@ -146,6 +152,17 @@ public class GraphicalPlayFrame implements ActionListener {
             questionBank = jsonReader.read();
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+    }
+
+    public static void playSound(String audio) {
+        InputStream music;
+        try {
+            music = new FileInputStream(new File(audio));
+            AudioStream audios = new AudioStream(music);
+            AudioPlayer.player.start(audios);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error playing sound");
         }
     }
 
