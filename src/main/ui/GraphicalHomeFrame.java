@@ -14,73 +14,105 @@ import java.util.Scanner;
 
 public class GraphicalHomeFrame extends JFrame implements ActionListener {
 
-    protected static final String JSON_STORE = "./data/questionbank.json";
-    protected QuestionBank questionBank;
-    protected JsonWriter jsonWriter;
-    protected JsonReader jsonReader;
+    private static final String JSON_STORE = "./data/questionbank.json";
+    private QuestionBank questionBank;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
-    protected JFrame frame;
-    protected JPanel panel;
-    protected JLabel title;
+    private JFrame frame;
+    private JPanel mainPanel;
+    private JPanel borderPanel;
+    private JLabel title;
+    private ImageIcon imgInIcon;
+    private JLabel image;
 
     public GraphicalHomeFrame() {
         frame = new JFrame();
+        frame.setSize(800, 800);
 
-        panel = new JPanel();
-        panel.setBorder(BorderFactory.createEmptyBorder(100, 30, 120, 30));
-        panel.setLayout(new GridLayout(5, 5));
-        panel.setBackground(Color.getHSBColor(60, 0, 50));
+        borderPanel();
+        mainPanel();
+        title();
+        mainPanel.add(title);
+        image();
+        mainPanel.add(image);
 
-        title = new JLabel("♡ Tap my heart ♡");
-        title.setBounds(150, 0, 1000, 100);
-        title.setFont(new Font("Noto Sans", Font.PLAIN, 30));
-        frame.add(title);
+        allButtonTools();
 
-        ImageIcon imgIcon = new ImageIcon("./data/emotions.png");
-        Image image = imgIcon.getImage();
-        Image imgScale = image.getScaledInstance(500, 200, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(imgScale);
-        JLabel imageLabel = new JLabel(scaledIcon);
-        panel.add(imageLabel);
-
-        playGameAndDesignGameTools();
-        loadGameTool();
-
-        frame.add(panel, BorderLayout.CENTER);
+        borderPanel.add(mainPanel, new GridBagConstraints());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Tap my heart");
-        frame.pack();
         frame.setVisible(true);
     }
 
+    // EFFECTS: runs a new GraphicalHomeFrame
     public static void main(String[] args) {
         new GraphicalHomeFrame();
     }
 
     // MODIFIES: this
-    // EFFECTS:  a helper method which declares and instantiates Play game and Design new game tools
-    private void playGameAndDesignGameTools() {
+    // EFFECTS: declares and instantiates the title on homepage
+    private void title() {
+        title = new JLabel("♡ Tap my heart ♡");
+        title.setFont(new Font("Noto Sans", Font.PLAIN, 50));
+        title.setBorder(BorderFactory.createEmptyBorder(0, 70, 20, 0));
+    }
+
+    // MODIFIES: this
+    // EFFECTS: declares and instantiates the image on homepage
+    private void image() {
+        // Picture from https://blog.ubicare.com/driving-patient-loyalty-by-connecting-outside-the-hospital-early-on
+        imgInIcon = new ImageIcon("./data/emotions.png");
+        image = new JLabel(imgInIcon);
+        image.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+    }
+
+    // MODIFIES: this
+    // EFFECTS: declares and instantiates main panel containing all visible labels and buttons
+    private void mainPanel() {
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
+        mainPanel.setBackground(Color.getHSBColor(60, 0, 30));
+    }
+
+    // MODIFIES: this
+    // EFFECTS: declares and instantiates the image on homepage
+    private void borderPanel() {
+        borderPanel = new JPanel(new BorderLayout());
+        frame.add(borderPanel);
+        borderPanel.setBackground(Color.getHSBColor(60, 0, 30));
+        borderPanel.setLayout(new GridBagLayout());
+    }
+
+    // MODIFIES: this
+    // EFFECTS: declares and instantiates all buttons on homepage
+    private void allButtonTools() {
 
         JButton playGameButton = new JButton("Play game");
         playGameButton.addActionListener(e -> new GraphicalPlayFrame());
-        panel.add(playGameButton);
+        mainPanel.add(playGameButton);
 
         JButton designGameButton = new JButton("Design new questions");
         designGameButton.addActionListener(e -> new GraphicalDesignFrame());
-        panel.add(designGameButton);
+        mainPanel.add(designGameButton);
+
+        JButton loadQuestionsButton = new JButton("Load question bank");
+        loadQuestionsButton.addActionListener(this);
+        mainPanel.add(loadQuestionsButton);
 
     }
 
     // MODIFIES: this
-    // EFFECTS:  a helper method which declares and instantiates tools to load and save game
-    private void loadGameTool() {
-
-        JButton loadQuestionsButton = new JButton("Load question bank");
-        loadQuestionsButton.addActionListener(this);
-        panel.add(loadQuestionsButton);
-
+    // EFFECTS: initializes questionBank and loads the saved data from json
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        init();
+        System.out.println("Loaded questions from " + JSON_STORE);
+        JOptionPane.showMessageDialog(frame, "Successfully loaded the questions.");
     }
 
+    // MODIFIES: this
+    // EFFECTS: helper method that initializes questionBank and loads it from json
     public void init() {
         try {
             Scanner input;
@@ -92,13 +124,6 @@ public class GraphicalHomeFrame extends JFrame implements ActionListener {
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
         }
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        init();
-        System.out.println("Loaded questions from " + JSON_STORE);
-        JOptionPane.showMessageDialog(frame, "Successfully loaded the questions.");
     }
 
 }

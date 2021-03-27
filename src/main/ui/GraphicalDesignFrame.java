@@ -14,12 +14,12 @@ import java.util.Scanner;
 
 public class GraphicalDesignFrame implements ActionListener {
 
-    protected static final String JSON_STORE = "./data/questionbank.json";
-    protected QuestionBank questionBank;
-    protected JsonWriter jsonWriter;
-    protected JsonReader jsonReader;
-    protected JFrame frame;
-    protected JPanel panel;
+    private static final String JSON_STORE = "./data/questionbank.json";
+    private QuestionBank questionBank;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+    private JFrame frame;
+    private JPanel panel;
 
     private JLabel questionLabel;
     private JLabel answerLabel;
@@ -33,10 +33,10 @@ public class GraphicalDesignFrame implements ActionListener {
         panel = new JPanel();
         frame.setSize(800, 800);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(panel);
 
         panel.setLayout(null);
-        panel.setBackground(Color.getHSBColor(60, 0, 50));
+        panel.setBackground(Color.getHSBColor(60, 0, 30));
+        frame.add(panel);
 
         questionTool();
         answerTool();
@@ -44,6 +44,11 @@ public class GraphicalDesignFrame implements ActionListener {
 
         frame.setVisible(true);
 
+    }
+
+    // EFFECTS: runs a new GraphicalDesignFrame
+    public static void main(String[] args) {
+        new GraphicalDesignFrame();
     }
 
     public void questionTool() {
@@ -71,10 +76,6 @@ public class GraphicalDesignFrame implements ActionListener {
         submitButton.setBounds(120, 100, 80, 25);
         submitButton.addActionListener(this);
         panel.add(submitButton);
-    }
-
-    public static void main(String[] args) {
-        new GraphicalDesignFrame();
     }
 
     @Override

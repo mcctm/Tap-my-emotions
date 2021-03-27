@@ -43,7 +43,7 @@ public class GraphicalPlayFrame implements ActionListener {
         frame.add(panel);
 
         panel.setLayout(null);
-        panel.setBackground(Color.getHSBColor(60, 0, 50));
+        panel.setBackground(Color.getHSBColor(60, 0, 30));
 
         playGame();
 
