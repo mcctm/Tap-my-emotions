@@ -121,6 +121,7 @@ public class GraphicalPlayFrame implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: helper method to play sound
+    // Sound clip downloaded from https://www.thesoundarchive.com/
     public static void playSound(String audio) {
         InputStream music;
         try {
