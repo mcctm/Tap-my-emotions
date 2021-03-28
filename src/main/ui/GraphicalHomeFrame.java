@@ -75,7 +75,7 @@ public class GraphicalHomeFrame extends JFrame implements ActionListener {
     }
 
     // MODIFIES: this
-    // EFFECTS: declares and instantiates the image on homepage
+    // EFFECTS: declares and instantiates the border of homepage
     private void borderPanel() {
         borderPanel = new JPanel(new BorderLayout());
         frame.add(borderPanel);
@@ -111,7 +111,7 @@ public class GraphicalHomeFrame extends JFrame implements ActionListener {
     }
 
     // MODIFIES: this
-    // EFFECTS: initializes questionBank and loads it from json
+    // EFFECTS: helper method initializing questionBank and loading it from json
     public void init() {
         try {
             Scanner input;
