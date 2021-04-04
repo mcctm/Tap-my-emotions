@@ -32,7 +32,7 @@ public class QuestionBank implements Writable {
         return questionSet.get(i).getAnswer();
     }
 
-    // EFFECTS: returns an unmodifiable list of thingies in this question bank
+    // EFFECTS: returns an unmodifiable list of questions in this question bank
     public List<Question> getQuestionSetInListOfQuestion() {
         return Collections.unmodifiableList(questionSet);
     }

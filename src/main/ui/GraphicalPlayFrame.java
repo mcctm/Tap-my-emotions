@@ -93,8 +93,8 @@ public class GraphicalPlayFrame implements ActionListener {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds correct answers to map with its first letter as key, if key already exists, add to existing
-    //          list of string, else initialize new list of string to put in that new key
+    // EFFECTS: adds correct answer as value to the Map with its first letter as key, if key already exists, add
+    //          value to existing list of string, else initialize new list of string and put the value into the new key
     private void answerOptionsBank(int i) {
         if (! answerOptions.containsKey(questionBank.getQuestionAnswer(i).charAt(0))) {
             ArrayList answers = new ArrayList();
@@ -105,6 +105,7 @@ public class GraphicalPlayFrame implements ActionListener {
         }
     }
 
+    // MODIFIES: this
     // EFFECTS: returns possible answer choices (including correct answer) that starts with same letter
     //          as the correct answer, displayed in random order
     private String randomAnswerChoices(String questionAnswer) {
