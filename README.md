@@ -44,3 +44,12 @@ themselves emotionally because they do not understand the variety of emotions on
 - Class consisting the Map interface: GraphicalPlayFrame
 - Purpose: The map acts as a vocabulary bank for the multiple choice questions.
            It stores the emotional words in a list with their first letter as the key.
+           
+### Phase 4: Task 3
+If I had more time, I would improve the gui frame classes of my project. Right now, as shown from the UML diagram,
+the three of them (GraphicalDesignFrame, GraphicalHomeFrame, GraphicalPlayFrame) are all associated with the same classes
+(QuestionBank, JsonReader, JsonWriter). In addition to that, the design of the gui classes (e.g. the basic layout)
+are highly similar, which results in repetitive code and makes it more error-prone upon
+changes. To refactor this, I would:
+- Create an abstract class called GraphicalFrame in the ui package
+- Includes methods that all the three classes need (e.g. frame/panel colour, initialize json files if prompted)  

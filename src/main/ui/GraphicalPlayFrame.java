@@ -23,9 +23,9 @@ public class GraphicalPlayFrame implements ActionListener {
     protected QuestionBank questionBank;
     protected JsonWriter jsonWriter;
     protected JsonReader jsonReader;
+
     protected JFrame frame;
     protected JPanel panel;
-
     private JLabel questionPrompt;
     private JLabel answerLabel;
     private JButton submitButton;

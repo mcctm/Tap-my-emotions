@@ -18,9 +18,9 @@ public class GraphicalDesignFrame implements ActionListener {
     private QuestionBank questionBank;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
+
     private JFrame frame;
     private JPanel panel;
-
     private JLabel questionLabel;
     private JLabel answerLabel;
     private JTextField userQuestionText;
