@@ -23,8 +23,7 @@ public class Question implements Writable {
     public String getAnswer() {
         return answer;
     }
-
-
+    
     @Override
     // EFFECTS: see interface Writable
     public JSONObject toJson() {

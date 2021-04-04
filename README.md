@@ -38,3 +38,9 @@ themselves emotionally because they do not understand the variety of emotions on
 - As a user (designer), I want to be able to add multiple new questions to the question bank.
 - As a user (designer), I want to be able to save the newly added questions to the question bank file.
 - As a user (both players and designers), I want to be able to load questions from the question bank file.
+
+### Phase 4: Task 2
+- I chose the option "Make appropriate use of the Map interface somewhere in your code."
+- Class consisting the Map interface: GraphicalPlayFrame
+- Purpose: The map acts as a vocabulary bank for the multiple choice questions.
+           It stores the emotional words in a list with their first letter as the key.

@@ -14,9 +14,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Scanner;
 
 public class GraphicalPlayFrame implements ActionListener {
 
@@ -34,6 +33,7 @@ public class GraphicalPlayFrame implements ActionListener {
     private List<String> userAnswersInString;
     private List<String> correctAnswers;
     private Integer score;
+    private Map<Character, List<String>> answerOptions = new HashMap<>();
 
     public GraphicalPlayFrame() {
         frame = new JFrame();
@@ -60,7 +60,7 @@ public class GraphicalPlayFrame implements ActionListener {
     }
 
     // MODIFIES: this
-    // EFFECTS: declares and instantiates all labels and submit button for the game
+    // EFFECTS: declares and instantiates all labels of questions, choices, and submit button for the game
     private void playGame() {
         userAnswersTextField = new ArrayList<>();
         correctAnswers = new ArrayList<>();
@@ -69,13 +69,16 @@ public class GraphicalPlayFrame implements ActionListener {
         int numberOfQuestions = questionBank.listAllQuestionsInListOfString().size() / 2;
 
         for (int i = 0; i < numberOfQuestions; i++) {
+            answerOptionsBank(i);
+        }
+
+        for (int i = 0; i < numberOfQuestions; i++) {
 
             questionPrompt = new JLabel(questionBank.getQuestionPrompt(i));
             questionPrompt.setBounds(10, 20 + 100 * i, 1000, 25);
             panel.add(questionPrompt);
 
-            answerLabel = new JLabel("Choices: " + questionBank.getQuestionAnswer(i) + " / " + "angry"
-                    + " / " + "nervous");
+            answerLabel = new JLabel("Choices: " + randomAnswerChoices(questionBank.getQuestionAnswer(i)));
             answerLabel.setBounds(10, 50 + 100 * i, 1000, 25);
             panel.add(answerLabel);
 
@@ -85,9 +88,34 @@ public class GraphicalPlayFrame implements ActionListener {
 
             userAnswersTextField.add(userAnswer);
             correctAnswers.add(questionBank.getQuestionAnswer(i));
-
         }
+        submitButton(numberOfQuestions);
+    }
 
+    // MODIFIES: this
+    // EFFECTS: adds correct answers to map with its first letter as key, if key already exists, add to existing
+    //          list of string, else initialize new list of string to put in that new key
+    private void answerOptionsBank(int i) {
+        if (! answerOptions.containsKey(questionBank.getQuestionAnswer(i).charAt(0))) {
+            ArrayList answers = new ArrayList();
+            answers.add(questionBank.getQuestionAnswer(i));
+            answerOptions.put(questionBank.getQuestionAnswer(i).charAt(0), answers);
+        } else {
+            answerOptions.get(questionBank.getQuestionAnswer(i).charAt(0)).add(questionBank.getQuestionAnswer(i));
+        }
+    }
+
+    // EFFECTS: returns possible answer choices (including correct answer) that starts with same letter
+    //          as the correct answer, displayed in random order
+    private String randomAnswerChoices(String questionAnswer) {
+        char firstLetter = questionAnswer.charAt(0);
+        List<String> answerOptionsWithFirstLetter = answerOptions.get(firstLetter);
+        Collections.shuffle(answerOptionsWithFirstLetter, new Random());
+        return String.valueOf(answerOptionsWithFirstLetter);
+    }
+
+    // EFFECTS: initializes button to submit the answers written
+    private void submitButton(int numberOfQuestions) {
         submitButton = new JButton("Submit");
         submitButton.setBounds(150, 300 + numberOfQuestions * 70, 165, 25);
         submitButton.addActionListener(this);

@@ -1,7 +1,7 @@
 {"questions": [
     {
-        "answer": "painful",
-        "prompt": "Susan fell down the stairs. How does she feel?"
+        "answer": "sore",
+        "prompt": "Susan ran a full marathon yesterday. How do you think she feels?"
     },
     {
         "answer": "hungry",
@@ -18,5 +18,9 @@
     {
         "answer": "shy",
         "prompt": "Tom is meeting some new friends for the first time. How would he feel?"
+    },
+    {
+        "answer": "sad",
+        "prompt": "I lost my pen."
     }
 ]}
