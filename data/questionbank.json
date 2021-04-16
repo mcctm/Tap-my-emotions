@@ -1,6 +1,6 @@
 {"questions": [
     {
-        "answer": "sore",
+        "answer": "exhausted",
         "prompt": "Susan ran a full marathon yesterday. How do you think she feels?"
     },
     {
@@ -16,11 +16,7 @@
         "prompt": "Ron's puppy just passed away. How would he feel?"
     },
     {
-        "answer": "shy",
-        "prompt": "Tom is meeting some new friends for the first time. How would he feel?"
-    },
-    {
-        "answer": "sad",
-        "prompt": "I lost my pen."
+        "answer": "embarrassed",
+        "prompt": "Tom fell down in front of his friends. How might he feel?"
     }
 ]}

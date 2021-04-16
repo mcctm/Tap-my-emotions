@@ -52,7 +52,7 @@ public class GraphicalHomeFrame extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: declares and instantiates the title on homepage
     private void title() {
-        title = new JLabel("♡ Tap my heart ♡");
+        title = new JLabel("♡ Tap my emotions ♡");
         title.setFont(new Font("Noto Sans", Font.PLAIN, 50));
         title.setBorder(BorderFactory.createEmptyBorder(0, 70, 20, 0));
     }
